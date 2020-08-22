@@ -19,4 +19,4 @@ Since we are using an unofficial keystore to sign the patched APK, Google Play P
 Please note that the modules that you install from the Alt-Repo come with zero required support and is entirely under your responsibility. We cannot guarantee that all modules are safe and functional, although we try to. Be careful with what you choose to install and ensure that your device is compatible with any modules that you install.
 
 # Releases
-We have prepatched the Magisk Manager (stable releases) for you for convenience. We have setup a GitHub Workflow that patches the Magisk Manager APK directly from topjohnwu's official releases page.
+We have prepatched the Magisk Manager (stable releases) for you for convenience. We have setup a GitHub Workflow that patches the Magisk Manager APK directly from topjohnwu's official releases page. The Workflow will check for Magisk Manager updates once every 12 hours at exactly 00:00 UTC and 12:00 UTC.
