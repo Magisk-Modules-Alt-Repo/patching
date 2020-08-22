@@ -1,0 +1,61 @@
+name: Magisk Manager APK Patcher
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Magisk Manager Version'
+        required: true
+        default: 'v7.5.0'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '14'
+          architecture: x64
+      
+      - name: Setup Environment
+        id: setup_environment
+        run: |
+          wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
+          wget -O apktool.jar https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.4.1.jar
+          chmod +x apktool
+      
+      - name: Setup mmpatch
+        id: setup_mmpatch
+        run: |
+          git clone https://github.com/tytydraco/mmpatch
+      
+      - name: Fetch APK
+        id: fetch_apk
+        run: |
+          wget -O ./mmpatch/MagiskManager.apk https://github.com/topjohnwu/Magisk/releases/download/manager-v7.5.0/MagiskManager-${{ github.event.inputs.version }}.apk
+      
+      - name: Patch APK
+        id: patch_apk
+        run: |
+          export PATH="$PATH:`pwd`"
+          cd mmpatch
+          ./mmpatch Magisk-Modules-Alt-Repo
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: manager-alt-${{ github.event.inputs.version }}
+          release_name: Magisk Manager (Alt Patched) ${{ github.event.inputs.version }}
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./mmpatch/mmpatch-signed.apk
+          asset_name: MagiskManager-Alt-Repo-${{ github.event.inputs.version }}.apk
+          asset_content_type: application/apk
