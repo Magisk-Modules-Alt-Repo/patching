@@ -32,7 +32,7 @@ jobs:
       - name: Fetch APK
         id: fetch_apk
         run: |
-          wget -O ./mmpatch/MagiskManager.apk https://github.com/topjohnwu/Magisk/releases/download/manager-v7.5.0/MagiskManager-${{ github.event.inputs.version }}.apk
+          wget -O ./mmpatch/MagiskManager.apk https://github.com/topjohnwu/Magisk/releases/download/manager-${{ github.event.inputs.version }}/MagiskManager-${{ github.event.inputs.version }}.apk
       
       - name: Patch APK
         id: patch_apk
