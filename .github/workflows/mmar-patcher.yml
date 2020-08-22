@@ -26,6 +26,7 @@ jobs:
         id: setup_mmpatch
         run: |
           git clone https://github.com/tytydraco/mmpatch
+
       - name: Identify Target Tag
         id: identify_target_tag
         run: |
@@ -35,6 +36,7 @@ jobs:
           else
             echo "::set-env name=VERSION::`git ls-remote --tags https://github.com/topjohnwu/Magisk | grep manager- | awk -F / '{print $NF}' | tail -n 1 | awk -F '-' '{print $2}'`"
           fi
+
       - name: Fetch APK
         id: fetch_apk
         run: |
@@ -46,6 +48,7 @@ jobs:
           export PATH="$PATH:`pwd`"
           cd mmpatch
           ./mmpatch Magisk-Modules-Alt-Repo
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
