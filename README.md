@@ -9,6 +9,9 @@ Patch your own Magisk Module APK for third-party repo support.
 5. Delete any existing Magisk Manager from your Android device.
 6. Install `mmpatch-signed.apk` to your Android Device.
 
+# Missing Modules
+If you notice that your Magisk Manager is lacking newly added modules, go to Magisk Manager --> Setting --> Clear Repo Cache, then refresh your repo list. This ensures that your repo feed is up-to-date.
+
 # Play Protect
 Since we are using an unofficial keystore to sign the patched APK, Google Play Protect will warn you that the developer is not know to Google and that it was signed unofficially. If you are uncomfortable with this, sign the APK manually with a trusted keystore.
 
