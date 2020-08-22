@@ -1,5 +1,7 @@
 name: Magisk Manager APK Patcher
 on:
+  schedule:
+    - cron: '0 */12 * * *'
   workflow_dispatch:
     inputs:
       version:
@@ -36,6 +38,10 @@ jobs:
           else
             echo "::set-env name=VERSION::`git ls-remote --tags https://github.com/topjohnwu/Magisk | grep manager- | awk -F / '{print $NF}' | tail -n 1 | awk -F '-' '{print $2}'`"
           fi
+
+      - name: Bail If Existing
+        id: bail_if_existing
+        run: curl --output /dev/null --silent --head --fail "https://github.com/Magisk-Modules-Alt-Repo/patching/releases/tag/manager-alt-${{ env.VERSION }}" && exit 1
 
       - name: Fetch APK
         id: fetch_apk
