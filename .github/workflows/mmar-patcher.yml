@@ -3,9 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Magisk Manager Version'
-        required: true
-        default: 'v7.5.1'
+        description: 'Version (blank for latest)'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,11 +26,19 @@ jobs:
         id: setup_mmpatch
         run: |
           git clone https://github.com/tytydraco/mmpatch
-      
+      - name: Identify Target Tag
+        id: identify_target_tag
+        run: |
+          if [[ ! -z "${{ github.event.inputs.version }}" ]]
+          then
+            echo "::set-env name=VERSION::${{ github.event.inputs.version }}"
+          else
+            echo "::set-env name=VERSION::`git ls-remote --tags https://github.com/topjohnwu/Magisk | grep manager- | awk -F / '{print $NF}' | tail -n 1 | awk -F '-' '{print $2}'`"
+          fi
       - name: Fetch APK
         id: fetch_apk
         run: |
-          wget -O ./mmpatch/MagiskManager.apk https://github.com/topjohnwu/Magisk/releases/download/manager-${{ github.event.inputs.version }}/MagiskManager-${{ github.event.inputs.version }}.apk
+          wget -O ./mmpatch/MagiskManager.apk https://github.com/topjohnwu/Magisk/releases/download/manager-${{ env.VERSION }}/MagiskManager-${{ env.VERSION }}.apk
       
       - name: Patch APK
         id: patch_apk
@@ -46,8 +52,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: manager-alt-${{ github.event.inputs.version }}
-          release_name: Magisk Manager (Alt Patched) ${{ github.event.inputs.version }}
+          tag_name: manager-alt-${{ env.VERSION }}
+          release_name: Magisk Manager (Alt Patched) ${{ env.VERSION }}
 
       - name: Upload Release Asset
         id: upload-release-asset
@@ -57,5 +63,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./mmpatch/mmpatch-signed.apk
-          asset_name: MagiskManager-Alt-Repo-${{ github.event.inputs.version }}.apk
+          asset_name: MagiskManager-Alt-Repo-${{ env.VERSION }}.apk
           asset_content_type: application/apk
