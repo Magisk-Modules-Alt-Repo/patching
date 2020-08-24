@@ -6,6 +6,8 @@ on:
     inputs:
       version:
         description: 'Version (blank for latest)'
+      url:
+        description: 'URL (blank for stable)'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,7 +46,10 @@ jobs:
 
       - name: Fetch APK
         id: fetch_apk
-        run: wget -O ./mmpatch/MagiskManager.apk https://github.com/topjohnwu/Magisk/releases/download/manager-${{ env.VERSION }}/MagiskManager-${{ env.VERSION }}.apk
+        run: |
+          URL="https://github.com/topjohnwu/Magisk/releases/download/manager-${{ env.VERSION }}/MagiskManager-${{ env.VERSION }}.apk"
+          [[ ! -z "${{ github.event.inputs.url }}" ]] && URL="${{ github.event.inputs.url }}"
+          wget -O ./mmpatch/MagiskManager.apk "$URL"
       
       - name: Patch APK
         id: patch_apk
