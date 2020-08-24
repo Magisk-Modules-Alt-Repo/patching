@@ -45,10 +45,6 @@ jobs:
             fi
           fi
 
-      - name: Bail If Existing
-        id: bail_if_existing
-        run: curl --output /dev/null --silent --head --fail "https://github.com/Magisk-Modules-Alt-Repo/patching/releases/tag/manager-alt-${{ env.VERSION }}" && exit 1
-
       - name: Fetch APK
         id: fetch_apk
         run: |
