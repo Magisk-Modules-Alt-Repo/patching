@@ -37,10 +37,13 @@ jobs:
           then
             echo "::set-env name=VERSION::${{ github.event.inputs.version }}"
           else
-            echo "::set-env name=VERSION::`git ls-remote --tags https://github.com/topjohnwu/Magisk | grep manager- | awk -F / '{print $NF}' | tail -n 1 | awk -F '-' '{print $2}'`"
+            if [[ ! -z "${{ github.event.inputs.url }}" ]]
+            then
+              echo "::set-env name=VERSION::url-provided"
+            else
+              echo "::set-env name=VERSION::`git ls-remote --tags https://github.com/topjohnwu/Magisk | grep manager- | awk -F / '{print $NF}' | tail -n 1 | awk -F '-' '{print $2}'`"
+            fi
           fi
-          
-          [[ ! -z "${{ github.event.inputs.url }}" ]] && echo "::set-env name=VERSION::url-provided"
 
       - name: Bail If Existing
         id: bail_if_existing
