@@ -12,6 +12,9 @@ Patch your own Magisk Module APK for third-party repo support.
 # Missing Modules
 If you notice that your Magisk Manager is lacking newly added modules, go to Magisk Manager --> Setting --> Clear Repo Cache, then refresh your repo list. This ensures that your repo feed is up-to-date.
 
+# Using Alongside Official Manager
+To use the Alt-Repo manager alongside the official manager, change the official manager's package id in Settings. Then, install the Alt-Repo manager afterwards.
+
 # Play Protect
 Since we are using an unofficial keystore to sign the patched APK, Google Play Protect will warn you that the developer is not know to Google and that it was signed unofficially. If you are uncomfortable with this, sign the APK manually with a trusted keystore.
 
