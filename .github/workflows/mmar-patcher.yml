@@ -28,7 +28,7 @@ jobs:
       
       - name: Setup mmpatch
         id: setup_mmpatch
-        run: git clone https://github.com/tytydraco/mmpatch
+        run: git clone https://github.com/Magisk-Modules-Alt-Repo/mmpatch
 
       - name: Identify Target Tag
         id: identify_target_tag
