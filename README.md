@@ -2,7 +2,7 @@
 Patch your own Magisk Module APK for third-party repo support.
 
 # Tutorial
-1. Clone [mmpatch](https://github.com/tytydraco/mmpatch) to your computer.
+1. Clone [mmpatch](https://github.com/Magisk-Modules-Alt-Repo/mmpatch) to your computer.
 2. Install [Apktool](https://github.com/iBotPeaches/Apktool) and Java JDK.
 3. Add Apktool and Java SDK bin to your path.
 4. `./mmpatch Magisk-Modules-Alt-Repo`
